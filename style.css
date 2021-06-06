@@ -1,0 +1,312 @@
+/* General */
+
+.page {
+  display: none;
+}
+.theActive {
+  display: block;
+}
+
+/* parallax area  */
+
+.parallax {
+  background-image: url("images/bit-img.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 600px;
+  width: 100%;
+}
+
+#progressBar {
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 100px;
+  left: 0px;
+  position: fixed;
+  z-index: 10000;
+  text-align: center;
+}
+
+#needToReload {
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 100px;
+  left: 0px;
+  position: fixed;
+  z-index: 10000;
+  text-align: center;
+}
+/* nav-bar area */
+
+/* nav-bar */
+.logo-nav {
+  font-family: "Cinzel", serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  padding-right: 1rem;
+}
+
+.nav-item {
+  font-family: "Cinzel", serif;
+  font-size: 110%;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: 1px;
+}
+
+/* coins area  */
+
+#coinsSec {
+  background-image: url("images/Lawrencium.jpg");
+}
+.coins-cards {
+  background-color: white;
+}
+
+.currencyImg {
+  width: 55px;
+  display: none;
+}
+
+.currencyImgModal {
+  width: 35px;
+}
+
+/* graphs area  */
+
+#LiveReportsSec {
+  background-image: url("images/Lawrencium.jpg");
+  width: 100%;
+  height: 1000px;
+}
+.live-prices {
+  color: white;
+  font-family: "Cinzel", serif;
+  font-size: 110%;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: 1px;
+}
+
+/* about-me area  */
+
+#aboutMeSec {
+  background-image: url("images/Lawrencium.jpg");
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+
+.aboutMeDV {
+  text-align: center;
+}
+
+.about-row {
+  margin: 100px auto;
+  width: 50%;
+  text-align: left;
+}
+
+.ellie-img {
+  float: left;
+  margin-right: 30px;
+  width: 20%;
+}
+
+.computer-img {
+  float: right;
+  margin-left: 30px;
+  width: 20%;
+}
+
+.coin-img {
+  float: left;
+  margin-right: 30px;
+  width: 20%;
+}
+
+.aboutH3 {
+  font-family: "Indie Flower", cursive;
+  font-size: 2rem;
+}
+.aboutP {
+  font-family: "Montserrat", sans-serif;
+  line-height: 2;
+}
+
+/* heart-switch */
+.form-switch {
+  margin: 0 auto;
+}
+
+.heart-switch {
+  --duration: 0.45s;
+  --stroke: #d1d6ee;
+  --stroke-active: #ec4472;
+  --fill: #fff;
+  --fill-active: #ec638e;
+  --shadow: rgba(0, 9, 61, 0.25);
+  cursor: pointer;
+  position: relative;
+  -webkit-transform: scale(var(--s, 1)) translateZ(0);
+  transform: scale(var(--s, 1)) translateZ(0);
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.heart-switch:active {
+  --s: 0.95;
+}
+
+.heart-switch input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  outline: none;
+  border: none;
+  pointer-events: none;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  left: 1px;
+  top: 1px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 3px 0 var(--shadow);
+  box-shadow: 0 1px 3px 0 var(--shadow);
+}
+
+.heart-switch input + svg {
+  width: 36px;
+  height: 25px;
+  fill: var(--fill);
+  stroke: var(--stroke);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  display: block;
+  -webkit-transition: stroke var(--duration), fill var(--duration);
+  transition: stroke var(--duration), fill var(--duration);
+}
+
+.heart-switch input:not(:checked) {
+  -webkit-animation: uncheck var(--duration) linear forwards;
+  animation: uncheck var(--duration) linear forwards;
+}
+
+.heart-switch input:checked {
+  -webkit-animation: check var(--duration) linear forwards;
+  animation: check var(--duration) linear forwards;
+}
+
+.heart-switch input:checked + svg {
+  --fill: var(--fill-active);
+  --stroke: var(--stroke-active);
+}
+
+@-webkit-keyframes uncheck {
+  0% {
+    -webkit-transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+    transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+  }
+  50% {
+    -webkit-transform: rotate(30deg) translateX(9px);
+    transform: rotate(30deg) translateX(9px);
+  }
+  75% {
+    -webkit-transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+    transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+  }
+  100% {
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes uncheck {
+  0% {
+    -webkit-transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+    transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+  }
+  50% {
+    -webkit-transform: rotate(30deg) translateX(9px);
+    transform: rotate(30deg) translateX(9px);
+  }
+  75% {
+    -webkit-transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+    transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+  }
+  100% {
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+}
+
+@-webkit-keyframes check {
+  0% {
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+  25% {
+    -webkit-transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+    transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+  }
+  50% {
+    -webkit-transform: rotate(30deg) translateX(9px);
+    transform: rotate(30deg) translateX(9px);
+  }
+  100% {
+    -webkit-transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+    transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+  }
+}
+
+@keyframes check {
+  0% {
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+  25% {
+    -webkit-transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+    transform: rotate(30deg) translateX(4.5px) scaleX(1.1);
+  }
+  50% {
+    -webkit-transform: rotate(30deg) translateX(9px);
+    transform: rotate(30deg) translateX(9px);
+  }
+  100% {
+    -webkit-transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+    transform: rotate(-30deg) translateX(13.5px) translateY(8px);
+  }
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+body .heart-switch {
+  margin: 12px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+/*# sourceMappingURL=styles.css.map */
+
+/* modal */
+.modal-content {
+  background-image: url("images/Lawrencium.jpg");
+}
+
+#exampleModalLabel {
+  color: white;
+}

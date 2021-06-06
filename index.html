@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <!-- Ajax File -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Indie+Flower&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/coin.png" type="image/x-icon" />
+    <title>CryptoCurrency</title>
+  </head>
+  <body>
+    <section id="navSec" class="fixed-top mb-5">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+        <div class="container-fluid">
+          <a class="navbar-brand logo-nav" href="#parallaxSec">Crypto-Currency</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item mx-2">
+                <a class="nav-link active" id="navHome" aria-current="page" href="#" onclick="coinsClicked()">Home</a>
+              </li>
+              <li class="nav-item mx-2">
+                <a class="nav-link" id="navLive" href="#" onclick="LiveReportsClicked()">Live Reports</a>
+              </li>
+              <li class="nav-item mx-2">
+                <a class="nav-link" id="navAbout" href="#" onclick="aboutClicked()">About Me</a>
+              </li>
+            </ul>
+            <input class="form-control me-2" id="searchFields" type="search" placeholder="Search For a Currency By Symbol" style="width: 300px" aria-label="Search" />
+          </div>
+        </div>
+      </nav>
+    </section>
+
+    <section id="parallaxSec" class="parallax"></section>
+
+    <section id="coinsSec" class="page theActive pt-5 pb-5">
+      <div class="container">
+        <div class="row" id="cardDV"></div>
+      </div>
+    </section>
+
+    <section id="LiveReportsSec" class="page">
+      <!-- <div class="p-5">
+        <div id="timeDV" class="live-prices"></div>
+        <div id="coinDV" class="live-prices"></div>
+      </div> -->
+    </section>
+
+    <section id="aboutMeSec" class="page">
+      <div class="aboutMeDV py-4">
+        <div class="skills">
+          <div class="about-row">
+            <img class="ellie-img" src="images/ellie.png" alt="ellie-img" />
+            <h3 class="aboutH3">Hello, My Name is Ellie</h3>
+            <p class="aboutP">I am 26 years old, I love learning new things and creating the ideas that running around in my head. <br />I live in Haifa, and I think it is a beautiful city with a stunning sea. I love pets very much, and my wife and I have 3 cats and 2 dogs at home.</p>
+          </div>
+          <div class="about-row">
+            <img class="computer-img" src="images/computer.png" alt="computer-img" />
+            <h3 class="aboutH3">Web development</h3>
+            <p class="aboutP">I study Full-Stack web development. It's an interesting field I like to explore. I started learning to code because I wanted to build a website or software that could help me keep track of my mood swings to improve my quality of life.</p>
+          </div>
+          <div class="about-row">
+            <img class="coin-img" src="images/coin-img.png" alt="coin-img" />
+            <h3 class="aboutH3">In This Project</h3>
+            <p class="aboutP">I built a website that provides information on Crypto-currency prices. On the website you can see what the prices of currencies are in Euros, Dollars and Shekels. Also, through live-reports you can see the prices of your five favorite currencies in real time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- modal to five favorites -->
+    <div id="modalDIV"></div>
+    <!-- progress bar -->
+    <div id="progressBar">
+      <img src="images/Please Wait.gif" alt="Loading..." />
+    </div>
+    <div id="needToReload">
+      <img src="images/reload-please.gif" alt="reload please..." />
+    </div>
+
+    <!-- js file -->
+    <!-- <script src="./script/main-function.js"></script> -->
+    <script src="./script/main.js"></script>
+  </body>
+</html>
