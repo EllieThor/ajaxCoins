@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="style.css" />
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/coin.png" type="image/x-icon" />
+    <!-- charts -->
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
     <title>CryptoCurrency</title>
   </head>
   <body>
@@ -60,6 +63,10 @@
         <div id="timeDV" class="live-prices"></div>
         <div id="coinDV" class="live-prices"></div>
       </div> -->
+      <div class="empty-chart">sorry no coins were chosen</div>
+      <div class="container">
+        <div id="chartContainer" style="height: 400px; width: 95%; position: absolute; margin: 0px auto"></div>
+      </div>
     </section>
 
     <section id="aboutMeSec" class="page">
@@ -95,7 +102,8 @@
     </div>
 
     <!-- js file -->
-    <!-- <script src="./script/main-function.js"></script> -->
+    <!-- <script type="module" src="./script/chart.js"></script> -->
+    <!-- <script type="module" src="./script/main.js"></script> -->
     <script src="./script/main.js"></script>
   </body>
 </html>
