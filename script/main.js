@@ -237,10 +237,12 @@ function printSingleFavoriteToModal(singleCoin, i) {
         </div>
         `;
 }
+
 // able save Changes button
 function countChecked() {
   document.getElementById("updateModal").removeAttribute("disabled");
 }
+
 // update favorites
 function updateFavorites(favoriteARR, theSixthCoinOBJ) {
   let allRadio = document.getElementsByName("favCheck-modal");
