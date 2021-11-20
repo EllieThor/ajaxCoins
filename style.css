@@ -309,3 +309,8 @@ body .heart-switch {
 #exampleModalLabel {
   color: white;
 }
+/* graph */
+.empty-chart {
+  color: #ec638e;
+  display: none;
+}
