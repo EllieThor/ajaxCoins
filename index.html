@@ -25,6 +25,7 @@
     <title>CryptoCurrency</title>
   </head>
   <body>
+    <!-- NAV SEC -->
     <section id="navSec" class="fixed-top mb-5">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
         <div class="container-fluid">
@@ -37,12 +38,12 @@
               <li class="nav-item mx-2">
                 <a class="nav-link active" id="navHome" aria-current="page" href="#" onclick="coinsClicked()">Home</a>
               </li>
-              <!-- <li class="nav-item mx-2">
+              <li class="nav-item mx-2">
                 <a class="nav-link" id="navLive" href="#" onclick="LiveReportsClicked()">Live Reports</a>
-              </li> -->
-              <!-- <li class="nav-item mx-2">
+              </li>
+              <li class="nav-item mx-2">
                 <a class="nav-link" id="navAbout" href="#" onclick="aboutClicked()">About Me</a>
-              </li> -->
+              </li>
             </ul>
             <input class="form-control me-2" id="searchFields" type="search" placeholder="Search For a Currency By Symbol" style="width: 300px" aria-label="Search" />
           </div>
@@ -50,25 +51,25 @@
       </nav>
     </section>
 
+    <!-- PARALLAX SEC -->
     <section id="parallaxSec" class="parallax"></section>
 
+    <!-- COINS SEC -->
     <section id="coinsSec" class="page theActive pt-5 pb-5">
       <div class="container">
         <div class="row" id="cardDV"></div>
       </div>
     </section>
 
+    <!-- GRAPH SEC -->
     <section id="LiveReportsSec" class="page">
-      <!-- <div class="p-5">
-        <div id="timeDV" class="live-prices"></div>
-        <div id="coinDV" class="live-prices"></div>
-      </div> -->
-      <div class="empty-chart">sorry no coins were chosen</div>
-      <div class="container">
-        <div id="chartContainer" style="height: 400px; width: 95%; position: absolute; margin: 0px auto"></div>
+      <div class="container isCoinExist p-3">
+        <div id="chartContainer"></div>
       </div>
+      <h3 class="empty-chart p-5">Please choose coin, no coins were chosen.</h3>
     </section>
 
+    <!-- ABOUT ME SEC -->
     <section id="aboutMeSec" class="page">
       <div class="aboutMeDV py-4">
         <div class="skills">
@@ -91,9 +92,10 @@
       </div>
     </section>
 
-    <!-- modal to five favorites -->
+    <!--  MODAL TO FIVE FAVORITES SEC -->
     <div id="modalDIV"></div>
-    <!-- progress bar -->
+
+    <!-- PROGRESS BAR -->
     <div id="progressBar">
       <img src="images/Please Wait.gif" alt="Loading..." />
     </div>
@@ -101,9 +103,7 @@
       <img src="images/reload-please.gif" alt="reload please..." />
     </div>
 
-    <!-- js file -->
-    <!-- <script type="module" src="./script/chart.js"></script> -->
-    <!-- <script type="module" src="./script/main.js"></script> -->
+    <!-- JS FILE -->
     <script src="./script/main.js"></script>
   </body>
 </html>

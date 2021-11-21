@@ -309,8 +309,12 @@ body .heart-switch {
 #exampleModalLabel {
   color: white;
 }
+
 /* graph */
 .empty-chart {
-  color: #ec638e;
+  color: white;
   display: none;
+  font-family: "Cinzel", serif;
+  text-align: center;
+  padding: 2px;
 }

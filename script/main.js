@@ -1,10 +1,16 @@
 let coins = [];
 let cardContent = "";
-// export let favoriteARR = [];
 let favoriteARR = [];
-// export let coinsArrForChart = {};
 let coinsArrForChart = {};
 let theSixthCoinOBJ;
+
+let coins_data = [];
+//double array for the fav coin
+let coinsPriceAndTimeARR = [[], [], [], [], []];
+//the chart
+let chart;
+//the interval
+let myInterval;
 
 let moreDataOBJ;
 
@@ -45,6 +51,7 @@ function aboutClicked() {
   coinsSec.className = "page pt-5";
   LiveReportsSec.className = "page";
 }
+
 // get favorites from localStorage
 function localStorageFavoriteCoins() {
   let favorites = localStorage.getItem("favorite Coins");
@@ -54,35 +61,48 @@ function localStorageFavoriteCoins() {
   }
 }
 
-// progress bar
-$(document).ajaxStart(function () {
-  $("#progressBar").css("display", "block");
-});
-$(document).ajaxStop(function () {
-  $("#progressBar").css("display", "none");
-});
-$(document).ajaxError(function () {
-  $("#needToReload").css("display", "block");
-});
-
-searchPlease1(allCoinsURL, 1, printCoins);
-// searchPlease(allCoinsURL, printCoins);
-
 // get coins information from api
-function searchPlease(url, callbackFun) {
+function getByAjax(url, type_data, callbackFun) {
   $.ajax({
     type: "GET",
     datatype: "json",
+    async: type_data == 1 ? true : false,
     url: url,
-    success: function (result) {
-      localStorageFavoriteCoins();
-      callbackFun(result, favoriteARR);
+    beforeSend: function () {
+      //show the loading img
+      if (type_data == 1) {
+        $("#progressBar").css("display", "block");
+      }
     },
+    success: function (result) {
+      switch (type_data) {
+        case 1:
+          localStorageFavoriteCoins();
+          create_data_chart();
+          callbackFun(result, favoriteARR);
+          break;
+        case 2:
+          coinsArrForChart = { ...result };
+          callbackFun == fillForLoop ? callbackFun(result) : null;
+          break;
+      }
+    },
+    complete: function () {
+      //hide the loading img
+      if (type_data == 1) {
+        $("#progressBar").css("display", "none");
+      }
+    },
+
     error: function (error) {
       console.log("error : ", error);
+      //show the err img
+      $("#needToReload").css("display", "block");
     },
   });
 }
+
+getByAjax(allCoinsURL, 1, printCoins);
 
 // filter coins by symbol
 const renderCoins = function (coins, filters) {
@@ -95,7 +115,6 @@ const renderCoins = function (coins, filters) {
   filteredCoins.map((coin, i) => printSingleCoin(coins, coin, i, favoriteARR));
   cardDV.innerHTML = cardContent;
 };
-renderCoins(coins, filter);
 
 // search coin by input
 document.getElementById("searchFields").addEventListener("input", function (e) {
@@ -164,16 +183,15 @@ function printSingleCoin(coins, singleCoin, i, favoriteARR) {
 
 // limit favorite to five -Execute when input checkbox selected to favorite.
 function onlyFiveCheckBox(singleCoin, indexFromAll) {
-  console.log("the single: ", singleCoin, "index from all: ", indexFromAll);
   let favoriteCheck = document.getElementsByName("favCheck");
   favoriteCheck[indexFromAll].onchange = function () {
     if ($(this).prop("checked") == true) {
       if (favoriteARR.length < 5) {
         favoriteARR.push(singleCoin);
         localStorage.setItem("favorite Coins", JSON.stringify(favoriteARR));
+        create_data_chart();
       } else {
         theSixthCoinOBJ = singleCoin;
-        console.log("theSixthCoinOBJ: ", theSixthCoinOBJ);
         openModal(favoriteARR, theSixthCoinOBJ);
         this.checked = false;
       }
@@ -183,6 +201,7 @@ function onlyFiveCheckBox(singleCoin, indexFromAll) {
         1
       );
       localStorage.setItem("favorite Coins", JSON.stringify(favoriteARR));
+      create_data_chart();
     }
   };
 }
@@ -267,6 +286,7 @@ function updateFavorites(favoriteARR, theSixthCoinOBJ) {
   cardContent = "";
   coins.map((coin, i) => printSingleCoin(coins, coin, i, favoriteARR));
   cardDV.innerHTML = cardContent;
+  create_data_chart();
 }
 
 // more info -Execute when more info button is clicked
@@ -276,11 +296,8 @@ function moreInfo(id) {
   moreInfoFromLocal = JSON.parse(moreInfoFromLocal);
   if (moreInfoFromLocal != undefined) {
     printMoreDetails(moreInfoFromLocal);
-    // console.log("from localStorage");
   } else {
-    // console.log("ajax execute");
-    // searchPlease(MoreInfoURL + id, printMoreDetails);
-    searchPlease1(MoreInfoURL + id, 1, printMoreDetails);
+    getByAjax(MoreInfoURL + id, 1, printMoreDetails);
   }
 }
 
@@ -310,49 +327,6 @@ function printMoreDetails(result) {
         `;
   document.getElementById(`${moreDataOBJ.name}`).innerHTML = moreData;
 }
-
-// export function searchPlease1(url, type_data, callbackFun) {
-function searchPlease1(url, type_data, callbackFun) {
-  $.ajax({
-    type: "GET",
-    datatype: "json",
-    url: url,
-    success: function (result) {
-      switch (type_data) {
-        case 1:
-          localStorageFavoriteCoins();
-          callbackFun(result, favoriteARR);
-          break;
-        case 2:
-          coinsArrForChart = { ...result };
-          break;
-      }
-    },
-    complete: function () {
-      //hide the loading page
-      if (type_data == 1) {
-        $("#progressBar").css("display", "none");
-      }
-    },
-    error: function (error) {
-      console.log("error : ", error);
-    },
-  });
-}
-
-//global vars
-let coins_data = [];
-//double array for the fav coin
-let the_coins = [[], [], [], [], []];
-//the chart
-let chart;
-//the interval
-let myInterval;
-
-window.onload = function () {
-  //create the chart on load
-  create_chart();
-};
 
 function create_chart() {
   //create the structure of the array
@@ -392,6 +366,7 @@ function create_chart() {
       },
     },
     //using a global array so when  using render it will update
+
     data: coins_data,
   });
 
@@ -399,15 +374,17 @@ function create_chart() {
   chart.render();
 }
 
+create_chart();
+
 function create_data_chart() {
   let info_of_coin = {};
   coins_data.length = 0;
-  the_coins.map((coin_num) => (coin_num.length = 0));
+  coinsPriceAndTimeARR.map((coin_num) => (coin_num.length = 0));
   clearInterval(myInterval);
-  console.log("create_data_chart favoriteARR: ", favoriteARR);
 
   if (favoriteARR.length > 0) {
     $(".empty-chart").css("display", "none");
+    $(".isCoinExist").css("display", "block");
     fill_first_five();
     favoriteARR.map((coin, index) => {
       info_of_coin = {
@@ -416,60 +393,58 @@ function create_data_chart() {
         showInLegend: true,
         xValueFormatString: "HH mm ss",
         yValueFormatString: "#,##0 Units",
-        dataPoints: the_coins[index],
+        dataPoints: coinsPriceAndTimeARR[index],
       };
       coins_data.push(info_of_coin);
-      console.log("coins_data: ", coins_data);
     });
-
-    get_value_of_coin();
+    getValueOfCoin();
   } else {
     $(".empty-chart").css("display", "block");
+    $(".isCoinExist").css("display", "none");
   }
 
   chart.render();
 }
 
 function fill_first_five() {
-  let val = {};
   let str_coins = "";
   str_coins += favoriteARR.map((coin) => coin.symbol.toUpperCase()) + ",";
   let url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${str_coins}&tsyms=USD`;
-  searchPlease1(url, 2);
-  console.log("test: ", coinsArrForChart);
+  getByAjax(url, 2, fillForLoop);
+}
+
+function fillForLoop() {
   for (let i = 5; i >= 0; i--) {
     favoriteARR.map((coin, index) => {
       val = {
         x: new Date(Date.now() - i * 2000),
         y: coinsArrForChart[coin.symbol.toUpperCase()].USD,
       };
-      the_coins[index].push(val);
+      coinsPriceAndTimeARR[index].push(val);
     });
-    console.log("favoriteARR: ", favoriteARR);
   }
 }
 
-function get_value_of_coin() {
+function getValueOfCoin() {
   let val = {};
   //create the interval and get the data every two seconds
   myInterval = setInterval(function () {
     let str_coins = "";
     str_coins += favoriteARR.map((coin) => coin.symbol.toUpperCase()) + ",";
-    console.log("get_value_of_coin str_coins: ", str_coins);
     let url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${str_coins}&tsyms=USD`;
-    searchPlease1(url, 2);
+    getByAjax(url, 2);
 
     favoriteARR.map((coin, index) => {
-      console.log("get_value_of_coin: ", coinsArrForChart);
       val = {
         x: new Date(),
         y: coinsArrForChart[coin.symbol.toUpperCase()].USD,
       };
-      if (the_coins[index].length > 10) {
-        the_coins[index].shift();
+      if (coinsPriceAndTimeARR[index].length > 10) {
+        coinsPriceAndTimeARR[index].shift();
       }
-      the_coins[index].push(val);
+      coinsPriceAndTimeARR[index].push(val);
     });
+
     chart.render();
   }, 2000);
 }
