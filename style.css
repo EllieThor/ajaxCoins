@@ -318,3 +318,20 @@ body .heart-switch {
   text-align: center;
   padding: 2px;
 }
+
+/* TODO: colors */
+/* pages */
+.page-link {
+  color: #54035a;
+}
+
+.page-link:focus {
+  color: #54035a;
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(110, 21, 138, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(110, 21, 138, 0.25);
+}
+
+.page-item.active .page-link {
+  background-color: #580b5e;
+  border-color: #310035;
+}

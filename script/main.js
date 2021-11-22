@@ -17,8 +17,10 @@ let moreDataOBJ;
 let filter = {
   searchText: "",
 };
-
-let allCoinsURL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=250&page=1";
+// https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${page_number}
+let page_number = $(".active").text();
+let allCoinsURL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${page_number}`;
+// let allCoinsURL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=250&page=1";
 let MoreInfoURL = `https://api.coingecko.com/api/v3/coins/`;
 
 // One Page Application: handle nav to hold on the current page and sections
@@ -126,6 +128,7 @@ document.getElementById("searchFields").addEventListener("input", function (e) {
 // print all coins
 function printCoins(result, favoriteARR) {
   coins = [...result];
+  console.log("eeeeeeeee: ", coins);
   cardContent = "";
 
   coins.map((coin, i) => printSingleCoin(coins, coin, i, favoriteARR));
@@ -448,3 +451,90 @@ function getValueOfCoin() {
     chart.render();
   }, 2000);
 }
+
+// Pagination
+
+let max_pages = 63;
+let min_pages = 1;
+
+function update_page_url() {
+  let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${$(".active").text()}`;
+  console.log("tttttttttt: ", url);
+  console.log("$(.active).text(): ", $(".active").text());
+  getByAjax(url, 1, printCoins);
+}
+
+/*         
+This function switch pages
+*/
+$(document).on("click", ".page-item", function () {
+  var index = $(".page-item").index(this);
+  console.log("index: ", index);
+  console.log("page_number: ", page_number);
+  if (index > 1 && index < 5) {
+    $(".page-item").removeClass("active");
+
+    $(`.page-item:eq(${index})`).addClass("active");
+    update_page_url();
+  } else {
+    let active_num = Number($(".active").text());
+    console.log("active_num: ", active_num);
+    switch (index) {
+      //next
+      case 5:
+        if ($(".active").text() < max_pages - 1) {
+          $(".page-item").removeClass("active");
+          $(`.page-link:eq(2)`).text(active_num);
+          $(`.page-link:eq(3)`).text(active_num + 1);
+          $(`.page-link:eq(4)`).text(active_num + 2);
+
+          $(`.page-item:eq(3)`).addClass("active");
+          update_page_url();
+        } else {
+          if ($(".active").text() == max_pages - 1) {
+            $(".page-item").removeClass("active");
+            $(`.page-item:eq(4)`).addClass("active");
+            update_page_url();
+          }
+        }
+        break;
+      //prev
+      case 1:
+        if (active_num > min_pages + 1) {
+          $(".page-item").removeClass("active");
+          $(`.page-link:eq(2)`).text(active_num - 2);
+          $(`.page-link:eq(3)`).text(active_num - 1);
+          $(`.page-link:eq(4)`).text(active_num);
+          $(`.page-item:eq(3)`).addClass("active");
+          update_page_url();
+        } else {
+          if ($(".active").text() == min_pages + 1) {
+            $(".page-item").removeClass("active");
+            $(`.page-item:eq(2)`).addClass("active");
+            update_page_url();
+          }
+        }
+        break;
+      //first
+      case 0:
+        $(".page-item").removeClass("active");
+        $(`.page-link:eq(2)`).text(1);
+        $(`.page-link:eq(3)`).text(2);
+        $(`.page-link:eq(4)`).text(3);
+        $(`.page-item:eq(2)`).addClass("active");
+        update_page_url();
+        break;
+      //last
+      case 6:
+        $(".page-item").removeClass("active");
+        $(`.page-link:eq(2)`).text(max_pages - 2);
+        $(`.page-link:eq(3)`).text(max_pages - 1);
+        $(`.page-link:eq(4)`).text(max_pages);
+        $(`.page-item:eq(4)`).addClass("active");
+        update_page_url();
+        break;
+    }
+  }
+});
+
+function pagination() {}
