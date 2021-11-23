@@ -4,7 +4,7 @@ let favoriteARR = [];
 let coinsArrForChart = {};
 let theSixthCoinOBJ;
 
-let coins_data = [];
+let coinsData = [];
 //double array for the fav coin
 let coinsPriceAndTimeARR = [[], [], [], [], []];
 //the chart
@@ -17,21 +17,23 @@ let moreDataOBJ;
 let filter = {
   searchText: "",
 };
-// https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${page_number}
-let page_number = $(".active").text();
-let allCoinsURL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${page_number}`;
-// let allCoinsURL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=250&page=1";
+
+let maxPages = 112;
+let minPages = 1;
+let pageNumber = $("li.page-item.active").text();
+let allCoinsURL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${pageNumber}`;
 let MoreInfoURL = `https://api.coingecko.com/api/v3/coins/`;
 
 // One Page Application: handle nav to hold on the current page and sections
+
 function coinsClicked() {
   navHome.className = "nav-link active";
   navLive.className = "nav-link";
   navAbout.className = "nav-link";
 
-  coinsSec.className = "page theActive pt-5";
-  LiveReportsSec.className = "page";
-  aboutMeSec.className = "page ";
+  coinsSec.className = "pt-5";
+  LiveReportsSec.className = "d-none";
+  aboutMeSec.className = "d-none";
 }
 
 function LiveReportsClicked() {
@@ -39,9 +41,9 @@ function LiveReportsClicked() {
   navAbout.className = "nav-link";
   navHome.className = "nav-link";
 
-  LiveReportsSec.className = "page theActive";
-  aboutMeSec.className = "page";
-  coinsSec.className = "page pt-5";
+  LiveReportsSec.className = "";
+  aboutMeSec.className = "d-none";
+  coinsSec.className = "d-none pt-5";
 }
 
 function aboutClicked() {
@@ -49,9 +51,9 @@ function aboutClicked() {
   navHome.className = "nav-link";
   navLive.className = "nav-link";
 
-  aboutMeSec.className = "page theActive";
-  coinsSec.className = "page pt-5";
-  LiveReportsSec.className = "page";
+  aboutMeSec.className = "";
+  coinsSec.className = "d-none pt-5";
+  LiveReportsSec.className = "d-none";
 }
 
 // get favorites from localStorage
@@ -71,7 +73,7 @@ function getByAjax(url, type_data, callbackFun) {
     async: type_data == 1 ? true : false,
     url: url,
     beforeSend: function () {
-      //show the loading img
+      //show the progress bar
       if (type_data == 1) {
         $("#progressBar").css("display", "block");
       }
@@ -80,7 +82,7 @@ function getByAjax(url, type_data, callbackFun) {
       switch (type_data) {
         case 1:
           localStorageFavoriteCoins();
-          create_data_chart();
+          createDataChart();
           callbackFun(result, favoriteARR);
           break;
         case 2:
@@ -90,7 +92,7 @@ function getByAjax(url, type_data, callbackFun) {
       }
     },
     complete: function () {
-      //hide the loading img
+      //show the progress bar
       if (type_data == 1) {
         $("#progressBar").css("display", "none");
       }
@@ -98,7 +100,7 @@ function getByAjax(url, type_data, callbackFun) {
 
     error: function (error) {
       console.log("error : ", error);
-      //show the err img
+      //show the err progress bar
       $("#needToReload").css("display", "block");
     },
   });
@@ -192,10 +194,10 @@ function onlyFiveCheckBox(singleCoin, indexFromAll) {
       if (favoriteARR.length < 5) {
         favoriteARR.push(singleCoin);
         localStorage.setItem("favorite Coins", JSON.stringify(favoriteARR));
-        create_data_chart();
+        createDataChart();
       } else {
         theSixthCoinOBJ = singleCoin;
-        openModal(favoriteARR, theSixthCoinOBJ);
+        openModal(favoriteARR);
         this.checked = false;
       }
     } else if ($(this).prop("checked") == false) {
@@ -204,12 +206,12 @@ function onlyFiveCheckBox(singleCoin, indexFromAll) {
         1
       );
       localStorage.setItem("favorite Coins", JSON.stringify(favoriteARR));
-      create_data_chart();
+      createDataChart();
     }
   };
 }
 
-function openModal(favoriteARR, theSixthCoinOBJ) {
+function openModal(favoriteARR) {
   let theModal = "";
   cardContent = "";
   theModal = `
@@ -289,7 +291,7 @@ function updateFavorites(favoriteARR, theSixthCoinOBJ) {
   cardContent = "";
   coins.map((coin, i) => printSingleCoin(coins, coin, i, favoriteARR));
   cardDV.innerHTML = cardContent;
-  create_data_chart();
+  createDataChart();
 }
 
 // more info -Execute when more info button is clicked
@@ -331,7 +333,8 @@ function printMoreDetails(result) {
   document.getElementById(`${moreDataOBJ.name}`).innerHTML = moreData;
 }
 
-function create_chart() {
+//graph
+function createChart() {
   //create the structure of the array
   chart = new CanvasJS.Chart("chartContainer", {
     exportEnabled: true,
@@ -370,27 +373,27 @@ function create_chart() {
     },
     //using a global array so when  using render it will update
 
-    data: coins_data,
+    data: coinsData,
   });
 
-  create_data_chart();
+  createDataChart();
   chart.render();
 }
 
-create_chart();
+createChart();
 
-function create_data_chart() {
-  let info_of_coin = {};
-  coins_data.length = 0;
+function createDataChart() {
+  let infoOfCoin = {};
+  coinsData.length = 0;
   coinsPriceAndTimeARR.map((coin_num) => (coin_num.length = 0));
   clearInterval(myInterval);
 
   if (favoriteARR.length > 0) {
     $(".empty-chart").css("display", "none");
     $(".isCoinExist").css("display", "block");
-    fill_first_five();
+    fillFirstFive();
     favoriteARR.map((coin, index) => {
-      info_of_coin = {
+      infoOfCoin = {
         type: "spline",
         name: coin.symbol,
         showInLegend: true,
@@ -398,7 +401,7 @@ function create_data_chart() {
         yValueFormatString: "#,##0 Units",
         dataPoints: coinsPriceAndTimeARR[index],
       };
-      coins_data.push(info_of_coin);
+      coinsData.push(infoOfCoin);
     });
     getValueOfCoin();
   } else {
@@ -409,10 +412,10 @@ function create_data_chart() {
   chart.render();
 }
 
-function fill_first_five() {
-  let str_coins = "";
-  str_coins += favoriteARR.map((coin) => coin.symbol.toUpperCase()) + ",";
-  let url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${str_coins}&tsyms=USD`;
+function fillFirstFive() {
+  let strCoins = "";
+  strCoins += favoriteARR.map((coin) => coin.symbol.toUpperCase()) + ",";
+  let url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${strCoins}&tsyms=USD`;
   getByAjax(url, 2, fillForLoop);
 }
 
@@ -432,9 +435,9 @@ function getValueOfCoin() {
   let val = {};
   //create the interval and get the data every two seconds
   myInterval = setInterval(function () {
-    let str_coins = "";
-    str_coins += favoriteARR.map((coin) => coin.symbol.toUpperCase()) + ",";
-    let url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${str_coins}&tsyms=USD`;
+    let strCoins = "";
+    strCoins += favoriteARR.map((coin) => coin.symbol.toUpperCase()) + ",";
+    let url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${strCoins}&tsyms=USD`;
     getByAjax(url, 2);
 
     favoriteARR.map((coin, index) => {
@@ -451,90 +454,77 @@ function getValueOfCoin() {
     chart.render();
   }, 2000);
 }
+// pagination
 
-// Pagination
+// page changes
+$(document).on("click", "li.page-item", function () {
+  var index = $("li.page-item").index(this);
 
-let max_pages = 63;
-let min_pages = 1;
-
-function update_page_url() {
-  let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${$(".active").text()}`;
-  console.log("tttttttttt: ", url);
-  console.log("$(.active).text(): ", $(".active").text());
-  getByAjax(url, 1, printCoins);
-}
-
-/*         
-This function switch pages
-*/
-$(document).on("click", ".page-item", function () {
-  var index = $(".page-item").index(this);
-  console.log("index: ", index);
-  console.log("page_number: ", page_number);
   if (index > 1 && index < 5) {
-    $(".page-item").removeClass("active");
-
-    $(`.page-item:eq(${index})`).addClass("active");
-    update_page_url();
+    $("li.page-item").removeClass("active");
+    $(`li.page-item:eq(${index})`).addClass("active");
+    updatePageURL();
   } else {
-    let active_num = Number($(".active").text());
-    console.log("active_num: ", active_num);
+    let activeNum = Number($("li.page-item.active").text());
     switch (index) {
       //next
       case 5:
-        if ($(".active").text() < max_pages - 1) {
-          $(".page-item").removeClass("active");
-          $(`.page-link:eq(2)`).text(active_num);
-          $(`.page-link:eq(3)`).text(active_num + 1);
-          $(`.page-link:eq(4)`).text(active_num + 2);
+        if ($("li.page-item.active").text() < maxPages - 1) {
+          $("li.page-item").removeClass("active");
+          $(`a.page-link:eq(2)`).text(activeNum);
+          $(`a.page-link:eq(3)`).text(activeNum + 1);
+          $(`a.page-link:eq(4)`).text(activeNum + 2);
 
-          $(`.page-item:eq(3)`).addClass("active");
-          update_page_url();
+          $(`li.page-item:eq(3)`).addClass("active");
+          updatePageURL();
         } else {
-          if ($(".active").text() == max_pages - 1) {
-            $(".page-item").removeClass("active");
-            $(`.page-item:eq(4)`).addClass("active");
-            update_page_url();
+          if ($("li.page-item.active").text() == maxPages - 1) {
+            $("li.page-item").removeClass("active");
+            $(`li.page-item:eq(4)`).addClass("active");
+            updatePageURL();
           }
         }
         break;
       //prev
       case 1:
-        if (active_num > min_pages + 1) {
-          $(".page-item").removeClass("active");
-          $(`.page-link:eq(2)`).text(active_num - 2);
-          $(`.page-link:eq(3)`).text(active_num - 1);
-          $(`.page-link:eq(4)`).text(active_num);
-          $(`.page-item:eq(3)`).addClass("active");
-          update_page_url();
+        if (activeNum > minPages + 1) {
+          $("li.page-item").removeClass("active");
+          $(`a.page-link:eq(2)`).text(activeNum - 2);
+          $(`a.page-link:eq(3)`).text(activeNum - 1);
+          $(`a.page-link:eq(4)`).text(activeNum);
+          $(`li.page-item:eq(3)`).addClass("active");
+          updatePageURL();
         } else {
-          if ($(".active").text() == min_pages + 1) {
-            $(".page-item").removeClass("active");
-            $(`.page-item:eq(2)`).addClass("active");
-            update_page_url();
+          if ($("li.page-item.active").text() == minPages + 1) {
+            $("li.page-item").removeClass("active");
+            $(`li.page-item:eq(2)`).addClass("active");
+            updatePageURL();
           }
         }
         break;
       //first
       case 0:
-        $(".page-item").removeClass("active");
-        $(`.page-link:eq(2)`).text(1);
-        $(`.page-link:eq(3)`).text(2);
-        $(`.page-link:eq(4)`).text(3);
-        $(`.page-item:eq(2)`).addClass("active");
-        update_page_url();
+        $("li.page-item").removeClass("active");
+        $(`a.page-link:eq(2)`).text(1);
+        $(`a.page-link:eq(3)`).text(2);
+        $(`a.page-link:eq(4)`).text(3);
+        $(`li.page-item:eq(2)`).addClass("active");
+        updatePageURL();
         break;
       //last
       case 6:
-        $(".page-item").removeClass("active");
-        $(`.page-link:eq(2)`).text(max_pages - 2);
-        $(`.page-link:eq(3)`).text(max_pages - 1);
-        $(`.page-link:eq(4)`).text(max_pages);
-        $(`.page-item:eq(4)`).addClass("active");
-        update_page_url();
+        $("li.page-item").removeClass("active");
+        $(`a.page-link:eq(2)`).text(maxPages - 2);
+        $(`a.page-link:eq(3)`).text(maxPages - 1);
+        $(`a.page-link:eq(4)`).text(maxPages);
+        $(`li.page-item:eq(4)`).addClass("active");
+        updatePageURL();
         break;
     }
   }
 });
 
-function pagination() {}
+function updatePageURL() {
+  let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=99&page=${$("li.page-item.active").text()}`;
+  getByAjax(url, 1, printCoins);
+}

@@ -1,12 +1,5 @@
 /* General */
 
-.page {
-  display: none;
-}
-.theActive {
-  display: block;
-}
-
 /* parallax area  */
 
 .parallax {
@@ -319,19 +312,19 @@ body .heart-switch {
   padding: 2px;
 }
 
-/* TODO: colors */
 /* pages */
+
 .page-link {
-  color: #54035a;
+  color: rgb(38, 34, 82);
 }
 
 .page-link:focus {
-  color: #54035a;
-  -webkit-box-shadow: 0 0 0 0.25rem rgba(110, 21, 138, 0.25);
-  box-shadow: 0 0 0 0.25rem rgba(110, 21, 138, 0.25);
+  color: rgb(38, 34, 82);
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(38, 34, 82, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 7, 85, 0.25);
 }
 
 .page-item.active .page-link {
-  background-color: #580b5e;
-  border-color: #310035;
+  background-color: rgb(38, 34, 82);
+  border-color: white;
 }
