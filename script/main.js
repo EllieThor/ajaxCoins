@@ -28,36 +28,19 @@ let MoreInfoURL = `https://api.coingecko.com/api/v3/coins/`;
 
 function navigationClicked(index) {
   //  0-home 1- liveReport 2- about
-  switch (index) {
-    case 0:
-      navHome.className = "nav-link active";
-      navLive.className = "nav-link";
-      navAbout.className = "nav-link";
+  navHome.className = index === 0 ? "nav-link active" : "nav-link";
+  navLive.className = index === 1 ? "nav-link active" : "nav-link";
+  navAbout.className = index === 2 ? "nav-link active" : "nav-link";
 
-      $("#coinsSec").show();
-      $("#LiveReportsSec").css("visibility", "hidden");
-      $("#aboutMeSec").hide();
-      break;
-
-    case 1:
-      navLive.className = "nav-link active";
-      navAbout.className = "nav-link";
-      navHome.className = "nav-link";
-
-      $("#coinsSec").hide();
-      $("#LiveReportsSec").css("visibility", "visible");
-      $("#aboutMeSec").hide();
-      break;
-
-    case 2:
-      navAbout.className = "nav-link active";
-      navHome.className = "nav-link";
-      navLive.className = "nav-link";
-
-      $("#coinsSec").hide();
-      $("#LiveReportsSec").css("visibility", "hidden");
-      $("#aboutMeSec").show();
-      break;
+  if (index == 1) {
+    $("#coinsSec").hide();
+    $("#aboutMeSec").hide();
+    $("#LiveReportsSec").css("visibility", "visible");
+  } else {
+    $("#coinsSec").hide();
+    $("#LiveReportsSec").css("visibility", "hidden");
+    $("#aboutMeSec").hide();
+    index == 0 ? $("#coinsSec").show() : $("#aboutMeSec").show();
   }
 }
 
