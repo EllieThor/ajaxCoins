@@ -36,13 +36,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item mx-2">
-                <a class="nav-link active" id="navHome" aria-current="page" href="#" onclick="coinsClicked()">Home</a>
+                <a class="nav-link active" id="navHome" aria-current="page" href="#" onclick="navigationClicked(0)">Home</a>
               </li>
               <li class="nav-item mx-2">
-                <a class="nav-link" id="navLive" href="#" onclick="LiveReportsClicked()">Live Reports</a>
+                <a class="nav-link" id="navLive" href="#" onclick="navigationClicked(1)">Live Reports</a>
               </li>
               <li class="nav-item mx-2">
-                <a class="nav-link" id="navAbout" href="#" onclick="aboutClicked()">About</a>
+                <a class="nav-link" id="navAbout" href="#" onclick="navigationClicked(2)">About</a>
               </li>
             </ul>
             <input class="form-control me-2" id="searchFields" type="search" placeholder="Search For a Currency By Symbol" style="width: 300px" aria-label="Search" />
@@ -53,6 +53,14 @@
 
     <!-- PARALLAX SEC -->
     <section id="parallaxSec" class="parallax"></section>
+
+    <!-- GRAPH SEC -->
+    <section id="LiveReportsSec">
+      <div class="container isCoinExist p-3">
+        <div id="chartContainer"></div>
+      </div>
+      <h3 class="empty-chart p-5">No coins were chosen ,Please choose coin.</h3>
+    </section>
 
     <!-- COINS SEC -->
     <section id="coinsSec" class="pt-5 pb-5">
@@ -84,16 +92,8 @@
       </div>
     </section>
 
-    <!-- GRAPH SEC -->
-    <section id="LiveReportsSec" class="d-none">
-      <div class="container isCoinExist p-3">
-        <div id="chartContainer"></div>
-      </div>
-      <h3 class="empty-chart p-5">Please choose coin, no coins were chosen.</h3>
-    </section>
-
     <!-- ABOUT ME SEC -->
-    <section id="aboutMeSec" class="d-none">
+    <section id="aboutMeSec">
       <div class="aboutMeDV py-4">
         <div class="skills">
           <div class="about-row">

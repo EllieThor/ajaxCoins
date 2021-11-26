@@ -26,34 +26,39 @@ let MoreInfoURL = `https://api.coingecko.com/api/v3/coins/`;
 
 // One Page Application: handle nav to hold on the current page and sections
 
-function coinsClicked() {
-  navHome.className = "nav-link active";
-  navLive.className = "nav-link";
-  navAbout.className = "nav-link";
+function navigationClicked(index) {
+  //  0-home 1- liveReport 2- about
+  switch (index) {
+    case 0:
+      navHome.className = "nav-link active";
+      navLive.className = "nav-link";
+      navAbout.className = "nav-link";
 
-  coinsSec.className = "pt-5";
-  LiveReportsSec.className = "d-none";
-  aboutMeSec.className = "d-none";
-}
+      $("#coinsSec").show();
+      $("#LiveReportsSec").css("visibility", "hidden");
+      $("#aboutMeSec").hide();
+      break;
 
-function LiveReportsClicked() {
-  navLive.className = "nav-link active";
-  navAbout.className = "nav-link";
-  navHome.className = "nav-link";
+    case 1:
+      navLive.className = "nav-link active";
+      navAbout.className = "nav-link";
+      navHome.className = "nav-link";
 
-  LiveReportsSec.className = "";
-  aboutMeSec.className = "d-none";
-  coinsSec.className = "d-none pt-5";
-}
+      $("#coinsSec").hide();
+      $("#LiveReportsSec").css("visibility", "visible");
+      $("#aboutMeSec").hide();
+      break;
 
-function aboutClicked() {
-  navAbout.className = "nav-link active";
-  navHome.className = "nav-link";
-  navLive.className = "nav-link";
+    case 2:
+      navAbout.className = "nav-link active";
+      navHome.className = "nav-link";
+      navLive.className = "nav-link";
 
-  aboutMeSec.className = "";
-  coinsSec.className = "d-none pt-5";
-  LiveReportsSec.className = "d-none";
+      $("#coinsSec").hide();
+      $("#LiveReportsSec").css("visibility", "hidden");
+      $("#aboutMeSec").show();
+      break;
+  }
 }
 
 // get favorites from localStorage
@@ -336,11 +341,13 @@ function printMoreDetails(result) {
 //graph
 function createChart() {
   //create the structure of the array
+  console.log("coins_data!!!!!!!!!!!!");
+
   chart = new CanvasJS.Chart("chartContainer", {
     exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: "Live reports of Favorite",
+      text: "Live Reports of Favorite",
     },
     subtitles: [
       {
@@ -379,6 +386,10 @@ function createChart() {
   createDataChart();
   chart.render();
 }
+// window.onload = function () {
+//   //create the chart on load
+//   createChart();
+// };
 
 createChart();
 
