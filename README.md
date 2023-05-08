@@ -1,2 +1,2 @@
 # ajaxCoins
-DEMO: https://crypto-currency-project.netlify.app
+DEMO: https://crypto-currency-ajax.netlify.app
